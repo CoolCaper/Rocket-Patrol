@@ -50,14 +50,33 @@ class Play extends Phaser.Scene {
     fixedWidth: 100
   }
   this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+  // GAME OVER flag
+this.gameOver = false;
+
+// 60-second play clock
+scoreConfig.fixedWidth = 0;
+this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+    this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+    this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or < for Menu', scoreConfig).setOrigin(0.5);
+    this.gameOver = true;
+}, null, this);
       }
-    update() {
+    update() {  
+      // check key input for restart
+      if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+          this.scene.restart();
+      }
+      if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        this.scene.start("menuScene");
+      }
       this.starfield.tilePositionX -= 4;
-      this.p1Rocket.update();
-      this.ship01.update();               // update spaceships (x3)
-      this.ship02.update();
-      this.ship03.update();
-      // check collisions
+      if (!this.gameOver) {               
+        this.p1Rocket.update();         // update rocket sprite
+        this.ship01.update();           // update spaceships (x3)
+        this.ship02.update();
+        this.ship03.update();
+    } 
+    
       // check collisions
 if(this.checkCollision(this.p1Rocket, this.ship03)) {
   this.p1Rocket.reset();
@@ -99,6 +118,7 @@ if (this.checkCollision(this.p1Rocket, this.ship01)) {
   this.p1Score += ship.points;
   this.scoreLeft.text = this.p1Score;       
       });       
+      this.sound.play('sfx_explosion');
     }
     reset() {
       this.isFiring = false; 
