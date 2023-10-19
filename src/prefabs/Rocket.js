@@ -9,24 +9,31 @@ class Rocket extends Phaser.GameObjects.Sprite {
       this.moveSpeed = 2;
     }
     update() {
-      if(!this.firing) {
+      //left & right movement
+      if(!this.isFiring) {
         if (keyLEFT.isDown && this.x >= borderUISize + this.width) {
           this.x -= this.moveSpeed;
         } else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width) {
           this.x += this.moveSpeed;
         }
       }
+      //fire button
       if(Phaser.Input.Keyboard.JustDown(keyF)) {
+        console.log('F Key pressed');
         this.isFiring = true;
       }
       //if fired, move up
-      if(this.IsFiring && this.y >borderUISize * 3 + borderPadding) {
+      if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
+        console.log('Rocket should go up');
         this.y -= this.moveSpeed;
       }
       //reset on miss
       if(this.y <= borderUISize * 3 + borderPadding) {
-        this.isFiring = false; 
-        this.y = game.config.height - borderUISize - borderPadding;
+        this.reset();
       }
+    }
+    reset() {      
+      this.isFiring = false; 
+      this.y = game.config.height - borderUISize - borderPadding;
     }
 }
