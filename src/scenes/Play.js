@@ -8,6 +8,7 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.image('spaceship2', './assets/spaceship2.png');
       }
     create() {
         // place tile sprite
@@ -25,9 +26,11 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         // add spaceships (x3)
-        this.ship01 = new SpaceShip(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0);
+        this.ship01 = new SpaceShip(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 20).setOrigin(0, 0);
         this.ship02 = new SpaceShip(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
-        this.ship03 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
+        this.ship03 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 20).setOrigin(0,0);
+        this.ship04 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*12, 'spaceship2', 0, 50, game.settings.spaceshipSpeed + 3).setOrigin(0,0);
+        //this.ship04.moveSpeed = game.settings.spaceshipSpeed + 5;
         // animation config
         this.anims.create({
         key: 'explode',
@@ -75,9 +78,14 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
         this.ship01.update();           // update spaceships (x3)
         this.ship02.update();
         this.ship03.update();
+        this.ship04.update();
     } 
     
       // check collisions
+if(this.checkCollision(this.p1Rocket, this.ship04)) {
+  this.p1Rocket.reset();
+  this.shipExplode(this.ship04);   
+}
 if(this.checkCollision(this.p1Rocket, this.ship03)) {
   this.p1Rocket.reset();
   this.shipExplode(this.ship03);   
