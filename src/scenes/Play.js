@@ -29,7 +29,7 @@ class Play extends Phaser.Scene {
         this.ship01 = new SpaceShip(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 20).setOrigin(0, 0);
         this.ship02 = new SpaceShip(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
         this.ship03 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 20).setOrigin(0,0);
-        this.ship04 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*12, 'spaceship2', 0, 50, game.settings.spaceshipSpeed + 3).setOrigin(0,0);
+        this.ship04 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*6, 'spaceship2', 0, 50, game.settings.spaceshipSpeed + 3).setOrigin(0,0);
         //this.ship04.moveSpeed = game.settings.spaceshipSpeed + 5;
         // animation config
         this.anims.create({
@@ -64,7 +64,7 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
     this.gameOver = true;
 }, null, this);
       }
-    update() {  
+    update() { 
       // check key input for restart
       if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
           this.scene.restart();
@@ -82,9 +82,9 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
     } 
     
       // check collisions
-if(this.checkCollision(this.p1Rocket, this.ship04)) {
+if(this.checkCollision(this.p1Rocket, this.ship03)) {
   this.p1Rocket.reset();
-  this.shipExplode(this.ship04);   
+  this.shipExplode(this.ship03);   
 }
 if(this.checkCollision(this.p1Rocket, this.ship03)) {
   this.p1Rocket.reset();
