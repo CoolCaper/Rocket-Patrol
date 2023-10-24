@@ -31,6 +31,8 @@ class Play extends Phaser.Scene {
         this.ship03 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 20).setOrigin(0,0);
         this.ship04 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*6, 'spaceship2', 0, 50, game.settings.spaceshipSpeed + 3).setOrigin(0,0);
         //this.ship04.moveSpeed = game.settings.spaceshipSpeed + 5;
+        
+        //console.log(this.time.number);
         // animation config
         this.anims.create({
         key: 'explode',
@@ -52,24 +54,62 @@ class Play extends Phaser.Scene {
     },
     fixedWidth: 100
   }
+
+  
+  let timerConfig = {
+    fontFamily: 'Courier',
+    fontSize: '28px',
+    backgroundColor: '#FACADE',
+    color: '#843605',
+    align: 'left',
+    padding: {
+      top: 5,
+      bottom: 5,
+    },
+    fixedWidth: 100
+  }
   this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
   // GAME OVER flag
 this.gameOver = false;
-
 // 60-second play clock
 scoreConfig.fixedWidth = 0;
-this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-    this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-    this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or < for Menu', scoreConfig).setOrigin(0.5);
-    this.gameOver = true;
-}, null, this);
-      }
-    update() { 
+let time = 45.0;
+this.integer = 0;
+this.timerText = this.add.text(borderUISize + borderPadding * 18, borderUISize + borderPadding*2, time, timerConfig);
+this.timer = this.time.addEvent({
+  delay: 1000,                // ms
+  callback: increment,
+  //args: [],
+  callbackScope: this,
+  loop: true
+});
+this.gameOverZero = 1;
+}
+
+update() { 
+      //time -= this.clock.getElapsedSeconds();
+      //this.timerText = time;
       // check key input for restart
+      let textTime = ((game.settings.gameTimer / 1000 - integer) + bonus) * this.gameOverZero;
+      this.timerText.text = textTime;
+      if (textTime <= 0) {
+        this.gameOverZero = 0;
+        this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', GlobalConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or < for Menu', GlobalConfig).setOrigin(0.5);
+        this.gameOver = true;
+      }
       if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+          this.gameOverZero = 1;
+          integer = 0;
+          bonus = 0;
+          textTime = game.settings.gameTimer;
           this.scene.restart();
       }
       if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        this.gameOverZero = 1;
+        integer = 0;
+        bonus = 0;
+        textTime = game.settings.gameTimer;
         this.scene.start("menuScene");
       }
       this.starfield.tilePositionX -= 4;
@@ -99,6 +139,8 @@ if (this.checkCollision(this.p1Rocket, this.ship01)) {
   this.shipExplode(this.ship01);
 }
 
+//console.log(this.clock.getElapsedSeconds());
+
     }
     checkCollision(rocket, ship) {
       // simple AABB checking
@@ -124,9 +166,28 @@ if (this.checkCollision(this.p1Rocket, this.ship01)) {
       
   // score add and repaint
   this.p1Score += ship.points;
-  this.scoreLeft.text = this.p1Score;       
+  bonus += 5;
+  // 
+  this.scoreLeft.text = this.p1Score;
       });       
-      this.sound.play('sfx_explosion');
+      let value = Phaser.Math.Between(0, 4);
+      console.log(value);
+      if (value = 0) {
+        console.log('explosion 0');
+        this.sound.play('sfx_explosion');
+      } else if (value = 1) {
+        console.log('explosion 1');
+        this.sound.play('sfx_explosion1');
+      } else if (value = 2) {
+        console.log('explosion 2');
+        this.sound.play('sfx_explosion2');
+      } else if (value = 3) {
+        console.log('explosion 3');
+        this.sound.play('sfx_explosion3');
+      } else if (value = 4) {
+        console.log('explosion 4');
+        this.sound.play('sfx_explosion4');
+      }
     }
     reset() {
       this.isFiring = false; 

@@ -6,6 +6,10 @@ class Menu extends Phaser.Scene {
         // load audio
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
+        this.load.audio('sfx_explosion1', './assets/stick-snap-2-83899.mp3');
+        this.load.audio('sfx_explosion2', './assets/punch-140236.mp3');
+        this.load.audio('sfx_explosion3', './assets/massive-thump-116359.mp3');
+        this.load.audio('sfx_explosion4', './assets/frying-pan-over-the-head-89303.mp3');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
       }
     create() {
@@ -45,7 +49,7 @@ keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
           // hard mode
           game.settings = {
             spaceshipSpeed: 4,
-            gameTimer: 45000    
+            gameTimer: 5000    
           }
           this.sound.play('sfx_select');
           this.scene.start('playScene');    
