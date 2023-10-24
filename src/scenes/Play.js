@@ -84,7 +84,24 @@ this.timer = this.time.addEvent({
   loop: true
 });
 this.gameOverZero = 1;
+
+
+this.fireUI = {
+  fontFamily: 'Courier',
+  fontSize: '28px',
+  backgroundColor: '#F3B141',
+  color: '#843605',
+  align: 'left',
+  padding: {
+    top: 5,
+    bottom: 5,
+  },
+  fixedWidth: 100
 }
+
+this.fireText = this.add.text(borderUISize + borderPadding*30, borderUISize + borderPadding*2, 'FIRE', this.fireUI).setVisible(false);
+}
+
 
 update() { 
       //time -= this.clock.getElapsedSeconds();
@@ -126,9 +143,9 @@ if(this.checkCollision(this.p1Rocket, this.ship03)) {
   this.p1Rocket.reset();
   this.shipExplode(this.ship03);   
 }
-if(this.checkCollision(this.p1Rocket, this.ship03)) {
+if(this.checkCollision(this.p1Rocket, this.ship04)) {
   this.p1Rocket.reset();
-  this.shipExplode(this.ship03);   
+  this.shipExplode(this.ship04);   
 }
 if (this.checkCollision(this.p1Rocket, this.ship02)) {
   this.p1Rocket.reset();
@@ -137,6 +154,17 @@ if (this.checkCollision(this.p1Rocket, this.ship02)) {
 if (this.checkCollision(this.p1Rocket, this.ship01)) {
   this.p1Rocket.reset();
   this.shipExplode(this.ship01);
+}
+if (this.p1Rocket.isFiring) {  
+  this.fireText.setVisible(true);
+} else {  
+  this.fireText.setVisible(false);
+}
+if (integer = 5) {
+  this.ship01.moveSpeed += 2;           // update spaceships (x3)
+  this.ship02.moveSpeed += 2;
+  this.ship03.moveSpeed += 2;
+  this.ship04.moveSpeed += 2;
 }
 
 //console.log(this.clock.getElapsedSeconds());
