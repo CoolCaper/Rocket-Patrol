@@ -9,8 +9,10 @@ class Play extends Phaser.Scene {
         this.load.image('starfield', './assets/starfield.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.image('spaceship2', './assets/spaceship2.png');
-        this.flip2 = this.load.image('spaceship2', './assets/spaceship2.png');
+        this.flip2 = this.load.image('spaceship2Flip', './assets/spaceship2.png');
         this.flip2.flipX = true;
+        this.flip = this.load.image('spaceshipFlip', './assets/spaceship.png'); 
+        this.flip.flipX = true;
       }
     create() {
         // place tile sprite
@@ -29,7 +31,7 @@ class Play extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         // add spaceships (x3)
         var leftOrRight = Phaser.Math.Between(1, 2);
-        console.log(leftOrRight);
+        //console.log(leftOrRight);
         this.ship01 = new SpaceShip(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 20).setOrigin(0, 0);
         
         if (leftOrRight > 1) {
@@ -37,7 +39,7 @@ class Play extends Phaser.Scene {
           this.ship01.x = 0 - borderUISize*6;
         }
         var leftOrRight = Phaser.Math.Between(1, 2);
-        console.log(leftOrRight);
+        //console.log(leftOrRight);
         this.ship02 = new SpaceShip(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
         var leftOrRight = Phaser.Math.Between(1, 2);
         
@@ -45,20 +47,21 @@ class Play extends Phaser.Scene {
           this.ship02.right = true;
           this.ship02.x = 0 - borderUISize*3;
         }
-        console.log(leftOrRight);
+        //console.log(leftOrRight);
         this.ship03 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 20).setOrigin(0,0);
         var leftOrRight = Phaser.Math.Between(1, 2);
         if (leftOrRight > 1) {
           this.ship03.right = true;
           this.ship03.x = 0;
         }
-        console.log(leftOrRight);
+        //console.log(leftOrRight);
+        var key = 'spaceship2';
         this.ship04 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*12, 'spaceship2', 0, 50, game.settings.spaceshipSpeed + 3).setOrigin(0,0);
         var leftOrRight = Phaser.Math.Between(1, 2);
         if (leftOrRight > 1) {
           this.ship04.right = true;
           this.ship04.x = 0;          
-          this.ship04.texture = this.flip2;
+          this.ship04.texture = 'spaceship2Flip';
         }
         // animation config
         this.anims.create({
@@ -143,8 +146,8 @@ update() {
       //this.timerText = time;
       // check key input for restart
       var speedCheck = integer;
-      console.log(this.ship04.x);
-      console.log(this.game.width);
+      //console.log(this.ship04.x);
+      //console.log(this.game.width);
       let textTime = ((game.settings.gameTimer / 1000 - integer) + bonus) // * this.gameOverZero;
       this.timerText.text = textTime;
       if (textTime <= 0) {
@@ -233,20 +236,22 @@ if (this.p1Rocket.isFiring) {
   this.scoreLeft.text = this.p1Score;
       });       
       let value = Phaser.Math.Between(0, 4);
-      //console.log(value);
-      if (value = 0) {
+      console.log(value);
+      if (value == 0) {
         console.log('explosion 0');
         this.sound.play('sfx_explosion');
-      } else if (value = 1) {
+      }
+      console.log(value);
+      if (value == 1) {
         console.log('explosion 1');
         this.sound.play('sfx_explosion1');
-      } else if (value = 2) {
+      } else if (value == 2) {
         console.log('explosion 2');
         this.sound.play('sfx_explosion2');
-      } else if (value = 3) {
+      } else if (value == 3) {
         console.log('explosion 3');
         this.sound.play('sfx_explosion3');
-      } else if (value = 4) {
+      } else if (value == 4) {
         console.log('explosion 4');
         this.sound.play('sfx_explosion4');
       }
