@@ -8,11 +8,9 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
-        this.load.image('spaceship2', './assets/spaceship2.png');
-        this.flip2 = this.load.image('spaceship2Flip', './assets/spaceship2.png');
-        this.flip2.flipX = true;
-        this.flip = this.load.image('spaceshipFlip', './assets/spaceship.png'); 
-        this.flip.flipX = true;
+        this.flip = this.load.image('spaceship2', './assets/spaceship2.png');
+        this.load.image('spaceship2Flip', './assets/spaceship2Flip.png');
+        this.load.image('spaceshipFlip', './assets/spaceshipFlip.png'); 
       }
     create() {
         // place tile sprite
@@ -57,11 +55,14 @@ class Play extends Phaser.Scene {
         //console.log(leftOrRight);
         var key = 'spaceship2';
         this.ship04 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*12, 'spaceship2', 0, 50, game.settings.spaceshipSpeed + 3).setOrigin(0,0);
+        this.ship04.rotation = .85;
+        console.log(this.ship04);
         var leftOrRight = Phaser.Math.Between(1, 2);
         if (leftOrRight > 1) {
           this.ship04.right = true;
-          this.ship04.x = 0;          
-          this.ship04.texture = 'spaceship2Flip';
+          this.ship04.x = 0;
+          console.log(this.ship04.rotation);
+          this.ship04.rotation = 200;
         }
         // animation config
         this.anims.create({
@@ -141,13 +142,9 @@ this.clock = this.time.delayedCall(30000, () => {
 }
 
 
-update() { 
-      //time -= this.clock.getElapsedSeconds();
-      //this.timerText = time;
+update() {
       // check key input for restart
       var speedCheck = integer;
-      //console.log(this.ship04.x);
-      //console.log(this.game.width);
       let textTime = ((game.settings.gameTimer / 1000 - integer) + bonus) // * this.gameOverZero;
       this.timerText.text = textTime;
       if (textTime <= 0) {
@@ -201,9 +198,6 @@ if (this.p1Rocket.isFiring) {
 } else {  
   this.fireText.setVisible(false);
 }
-//console.log(integer);
-
-//console.log(this.clock.getElapsedSeconds());
 
 
     }
