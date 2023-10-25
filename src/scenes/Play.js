@@ -35,15 +35,15 @@ class Play extends Phaser.Scene {
         if (leftOrRight > 1) {
           this.ship01.right = true;
           this.ship01.x = 0 - borderUISize*6;
+          this.ship01.angle = 180;
         }
-        var leftOrRight = Phaser.Math.Between(1, 2);
-        //console.log(leftOrRight);
         this.ship02 = new SpaceShip(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
         var leftOrRight = Phaser.Math.Between(1, 2);
         
         if (leftOrRight > 1) {
           this.ship02.right = true;
           this.ship02.x = 0 - borderUISize*3;
+          this.ship02.angle = 180;
         }
         //console.log(leftOrRight);
         this.ship03 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 20).setOrigin(0,0);
@@ -51,18 +51,17 @@ class Play extends Phaser.Scene {
         if (leftOrRight > 1) {
           this.ship03.right = true;
           this.ship03.x = 0;
+          this.ship03.angle = 180;
         }
         //console.log(leftOrRight);
         var key = 'spaceship2';
         this.ship04 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*12, 'spaceship2', 0, 50, game.settings.spaceshipSpeed + 3).setOrigin(0,0);
-        this.ship04.rotation = .85;
         console.log(this.ship04);
         var leftOrRight = Phaser.Math.Between(1, 2);
         if (leftOrRight > 1) {
           this.ship04.right = true;
           this.ship04.x = 0;
-          console.log(this.ship04.rotation);
-          this.ship04.rotation = 200;
+          this.ship04.angle = 180;
         }
         // animation config
         this.anims.create({
