@@ -9,6 +9,8 @@ class Play extends Phaser.Scene {
         this.load.image('starfield', './assets/starfield.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.image('spaceship2', './assets/spaceship2.png');
+        this.flip2 = this.load.image('spaceship2', './assets/spaceship2.png');
+        this.flip2.flipX = true;
       }
     create() {
         // place tile sprite
@@ -26,13 +28,38 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         // add spaceships (x3)
+        var leftOrRight = Phaser.Math.Between(1, 2);
+        console.log(leftOrRight);
         this.ship01 = new SpaceShip(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 20).setOrigin(0, 0);
-        this.ship02 = new SpaceShip(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
-        this.ship03 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 20).setOrigin(0,0);
-        this.ship04 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*6, 'spaceship2', 0, 50, game.settings.spaceshipSpeed + 3).setOrigin(0,0);
-        //this.ship04.moveSpeed = game.settings.spaceshipSpeed + 5;
         
-        //console.log(this.time.number);
+        if (leftOrRight > 1) {
+          this.ship01.right = true;
+          this.ship01.x = 0 - borderUISize*6;
+        }
+        var leftOrRight = Phaser.Math.Between(1, 2);
+        console.log(leftOrRight);
+        this.ship02 = new SpaceShip(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
+        var leftOrRight = Phaser.Math.Between(1, 2);
+        
+        if (leftOrRight > 1) {
+          this.ship02.right = true;
+          this.ship02.x = 0 - borderUISize*3;
+        }
+        console.log(leftOrRight);
+        this.ship03 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 20).setOrigin(0,0);
+        var leftOrRight = Phaser.Math.Between(1, 2);
+        if (leftOrRight > 1) {
+          this.ship03.right = true;
+          this.ship03.x = 0;
+        }
+        console.log(leftOrRight);
+        this.ship04 = new SpaceShip(this, game.config.width, borderUISize*6 + borderPadding*12, 'spaceship2', 0, 50, game.settings.spaceshipSpeed + 3).setOrigin(0,0);
+        var leftOrRight = Phaser.Math.Between(1, 2);
+        if (leftOrRight > 1) {
+          this.ship04.right = true;
+          this.ship04.x = 0;          
+          this.ship04.texture = this.flip2;
+        }
         // animation config
         this.anims.create({
         key: 'explode',
@@ -100,6 +127,14 @@ this.fireUI = {
 }
 
 this.fireText = this.add.text(borderUISize + borderPadding*30, borderUISize + borderPadding*2, 'FIRE', this.fireUI).setVisible(false);
+this.speedBoost = false;
+this.clock = this.time.delayedCall(30000, () => {
+  this.ship01.moveSpeed += 10;           // update spaceships (x3)
+  this.ship02.moveSpeed += 10;
+  this.ship03.moveSpeed += 10;
+  this.ship04.moveSpeed += 10;
+}, null, this);
+
 }
 
 
@@ -107,7 +142,10 @@ update() {
       //time -= this.clock.getElapsedSeconds();
       //this.timerText = time;
       // check key input for restart
-      let textTime = ((game.settings.gameTimer / 1000 - integer) + bonus) * this.gameOverZero;
+      var speedCheck = integer;
+      console.log(this.ship04.x);
+      console.log(this.game.width);
+      let textTime = ((game.settings.gameTimer / 1000 - integer) + bonus) // * this.gameOverZero;
       this.timerText.text = textTime;
       if (textTime <= 0) {
         this.gameOverZero = 0;
@@ -160,14 +198,10 @@ if (this.p1Rocket.isFiring) {
 } else {  
   this.fireText.setVisible(false);
 }
-if (integer = 5) {
-  this.ship01.moveSpeed += 2;           // update spaceships (x3)
-  this.ship02.moveSpeed += 2;
-  this.ship03.moveSpeed += 2;
-  this.ship04.moveSpeed += 2;
-}
+//console.log(integer);
 
 //console.log(this.clock.getElapsedSeconds());
+
 
     }
     checkCollision(rocket, ship) {
@@ -199,7 +233,7 @@ if (integer = 5) {
   this.scoreLeft.text = this.p1Score;
       });       
       let value = Phaser.Math.Between(0, 4);
-      console.log(value);
+      //console.log(value);
       if (value = 0) {
         console.log('explosion 0');
         this.sound.play('sfx_explosion');

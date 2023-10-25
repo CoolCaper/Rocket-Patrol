@@ -15,5 +15,4 @@ Implement parallax scrolling for the background (3)
 
 
 Create 4 new explosion sound effects and randomize which one plays on impact (3) (I can do this)
-Implement the speed increase that happens after 30 seconds in the original game (1)
 Randomize each spaceship's movement direction at the start of each play (1)
