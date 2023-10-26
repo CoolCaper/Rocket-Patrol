@@ -35,6 +35,7 @@ class Play extends Phaser.Scene {
         if (leftOrRight > 1) {
           this.ship01.right = true;
           this.ship01.x = 0 - borderUISize*6;
+          this.ship01.y += borderUISize;
           this.ship01.angle = 180;
         }
         this.ship02 = new SpaceShip(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
@@ -43,6 +44,7 @@ class Play extends Phaser.Scene {
         if (leftOrRight > 1) {
           this.ship02.right = true;
           this.ship02.x = 0 - borderUISize*3;
+          this.ship02.y += borderUISize;
           this.ship02.angle = 180;
         }
         //console.log(leftOrRight);
@@ -51,6 +53,7 @@ class Play extends Phaser.Scene {
         if (leftOrRight > 1) {
           this.ship03.right = true;
           this.ship03.x = 0;
+          this.ship03.y += borderUISize;
           this.ship03.angle = 180;
         }
         //console.log(leftOrRight);
@@ -62,6 +65,7 @@ class Play extends Phaser.Scene {
           this.ship04.right = true;
           this.ship04.x = 0;
           this.ship04.angle = 180;
+          this.ship04.y += borderUISize;
         }
         // animation config
         this.anims.create({
